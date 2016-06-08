@@ -60,6 +60,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
         </activity>
+        <activity
+            android:name=".RecommendationActivity"
+            android:label="@string/title_activity_recommendation"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

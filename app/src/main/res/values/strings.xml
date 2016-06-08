@@ -4,4 +4,5 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="title_activity_map_overview">Map Overview</string>
     <string name="title_activity_map_detail">Map Detail</string>
+    <string name="title_activity_recommendation">Destination Recommendation</string>
 </resources>
