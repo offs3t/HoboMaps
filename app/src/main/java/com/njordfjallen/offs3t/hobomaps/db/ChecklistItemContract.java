@@ -15,7 +15,7 @@ public final class ChecklistItemContract {
 
         public static final String COLUMN_NAME_TIME_START = "time_start";
         public static final String COLUMN_NAME_TIME_END = "time_end";
-        public static final String COLUMN_NAME_TIME_DURACTION = "time_duraction";
+        public static final String COLUMN_NAME_TIME_DURATION = "time_duration";
         public static final String COLUMN_NAME_TIME_OTHER = "time_other"; // Know I'll need this
 
         public static final String COLUMN_NAME_LOCATION_NAME = "location_name";
