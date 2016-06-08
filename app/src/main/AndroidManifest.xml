@@ -105,6 +105,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
         </activity>
+        <activity
+            android:name=".ChecklistCompletionActivity"
+            android:label="@string/title_activity_checklist_completion"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ChecklistAddActivity"
+            android:label="@string/title_activity_checklist_add"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
+        <activity
+            android:name="ChecklistDetailActivity"
+            android:label="@string/title_activity_checklist_detail"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
