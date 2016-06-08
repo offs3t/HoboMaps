@@ -5,4 +5,6 @@
     <string name="title_activity_map_overview">Map Overview</string>
     <string name="title_activity_map_detail">Map Detail</string>
     <string name="title_activity_recommendation">Destination Recommendation</string>
+    <string name="title_activity_point_selection">Point Selection</string>
+    <string name="title_activity_point_checklist">Point Checklist</string>
 </resources>

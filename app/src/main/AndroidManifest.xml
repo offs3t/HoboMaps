@@ -69,6 +69,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
         </activity>
+        <activity
+            android:name=".PointSelectionActivity"
+            android:label="@string/title_activity_point_selection"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PointChecklistActivity"
+            android:label="@string/title_activity_point_checklist"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.njordfjallen.offs3t.hobomaps.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
