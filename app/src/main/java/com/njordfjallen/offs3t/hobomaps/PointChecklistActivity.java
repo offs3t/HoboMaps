@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/**
+ * TODO Delete me!
+ */
 public class PointChecklistActivity extends AppCompatActivity {
 
     @Override
