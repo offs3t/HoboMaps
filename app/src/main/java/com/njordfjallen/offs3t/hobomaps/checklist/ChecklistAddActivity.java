@@ -69,6 +69,23 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
     /* Member variables */
 
+    /**
+     * Is set to true if the activity should edit an existing Checklist Item
+     * instead of creating a new Checklist Item;
+     * is set to false if it should create a new Checklist Item, as is normal
+     */
+    private boolean editMode;
+
+    /**
+     * The row ID of the Checklist Item in the database to display
+     */
+    private long rowID;
+
+    /**
+     * The database helper for the Checklist Item table
+     */
+    private ChecklistItemDbHelper checklistItemDbHelper;
+
     // TODO
 
 
@@ -80,7 +97,8 @@ public class ChecklistAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);:w
+                
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
