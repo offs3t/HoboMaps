@@ -7,4 +7,6 @@
     <string name="title_activity_recommendation">Destination Recommendation</string>
     <string name="title_activity_point_selection">Point Selection</string>
     <string name="title_activity_point_checklist">Point Checklist</string>
+    <string name="title_activity_itinerary_overview">Itinerary Overview</string>
+    <string name="title_activity_itinerary_edit">Itinerary Edit</string>
 </resources>
