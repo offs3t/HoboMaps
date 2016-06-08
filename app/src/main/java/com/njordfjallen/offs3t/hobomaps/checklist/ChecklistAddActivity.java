@@ -124,19 +124,27 @@ public class ChecklistAddActivity extends AppCompatActivity {
     private EditText editCostLow;
 
     private EditText editCostHi;
-    
+
     // TODO EditText, Spinner, NumberPicker, CheckBox
 
 
 
     /* Android lifecycle methods */
 
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut
+     *                           down, then this Bundle contains the data it most recently supplied
+     *                           in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);:w
+        setSupportActionBar(toolbar);
+
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -148,5 +156,17 @@ public class ChecklistAddActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+
+    /* Initialization methods */
+
+    /**
+     * Set references to the UI elements, and log error messages if any necessary Views
+     * are not found
+     */
+    private void getUiHooks() {
+        // Get the UI hooks
     }
 }

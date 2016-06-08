@@ -101,4 +101,5 @@
     </string>
     <string name="title_activity_checklist_add">Add to Checklist</string>
     <string name="title_activity_checklist_detail">Checklist Detail</string>
+    <string name="item_name">Item name</string>
 </resources>

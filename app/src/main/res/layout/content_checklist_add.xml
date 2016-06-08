@@ -8,10 +8,34 @@
     tools:context="ChecklistAddActivity"
     tools:showIn="@layout/activity_checklist_add">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <LinearLayout
+        android:id="@+id/viewgroup_add_checklist"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <!-- Item name -->
+        <EditText
+            android:id="@+id/edit_item_name"
+            android:hint="@string/item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
