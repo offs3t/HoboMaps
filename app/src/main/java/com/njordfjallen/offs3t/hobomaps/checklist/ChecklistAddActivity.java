@@ -4,6 +4,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.njordfjallen.offs3t.hobomaps.R;
 
@@ -86,7 +88,44 @@ public class ChecklistAddActivity extends AppCompatActivity {
      */
     private ChecklistItemDbHelper checklistItemDbHelper;
 
-    // TODO
+
+
+    /* UI elements */
+
+    /* TODO
+       Considerations:
+
+       Time_Start should always be shown
+       Time_End and Time_Duration, only one should be shown (switchable)
+
+       Likewise for State/City or Zip code
+
+       Time_Other and Goog_Maps unused
+     */
+
+    private EditText editItemName;
+
+    private NumberPicker editTimeStart;
+
+    private NumberPicker editTimeEnd;
+
+    private NumberPicker editTimeDuration;
+
+    private EditText editLocationName;
+
+    private EditText editLocationState;
+
+    private EditText editLocationCity;
+
+    private EditText editLocationZip;
+
+    private EditText editCost;
+
+    private EditText editCostLow;
+
+    private EditText editCostHi;
+    
+    // TODO EditText, Spinner, NumberPicker, CheckBox
 
 
 
@@ -98,7 +137,7 @@ public class ChecklistAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checklist_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);:w
-                
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
