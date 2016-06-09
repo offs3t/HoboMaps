@@ -107,10 +107,10 @@
     <string name="time_start">Starting time</string>
     <string name="time_end">Ending time</string>
     <string name="time_duration">Duration</string>
-    <string name="time_location_name">Name of location</string>
-    <string name="time_location_state">State</string>
-    <string name="time_location_city">City</string>
-    <string name="time_location_zip">Zip code</string>
+    <string name="location_name">Name of location</string>
+    <string name="location_state">State</string>
+    <string name="location_city">City</string>
+    <string name="location_zip">Zip code</string>
     <string name="item_cost">Cost</string>
     <string name="item_cost_low">Low cost</string>
     <string name="item_cost_hi">High cost</string>

@@ -25,30 +25,49 @@
         edit_time_start         NumberPicker?
         edit_time_end           NumberPicker?
         edit_time_duration      NumberPicker?
-
-        edit_location_name      EditText
-        edit_location_state     EditText
-        edit_location_city      EditText
-        edit_location_zip       EditText // accepted as an EditText box but stored as an int
-
-        edit_item_cost          EditText // with number keypad
-        edit_item_cost_low      EditText
-        edit_item_cost_hi       EditText
         -->
 
+        <EditText
+            android:id="@+id/edit_location_name"
+            android:hint="@string/location_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/edit_location_state"
+            android:hint="@string/location_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/edit_location_city"
+            android:hint="@string/location_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/edit_location_zip"
+            android:hint="@string/location_zip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/edit_cost"
+            android:hint="@string/item_cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <EditText
+            android:id="@+id/edit_cost_hi"
+            android:hint="@string/item_cost_hi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-
-
-
-
-
-
-
+        <EditText
+            android:id="@+id/edit_cost_low"
+            android:hint="@string/item_cost_low"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
