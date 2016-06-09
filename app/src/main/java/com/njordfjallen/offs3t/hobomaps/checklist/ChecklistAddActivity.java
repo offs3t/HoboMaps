@@ -3,6 +3,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -169,4 +170,97 @@ public class ChecklistAddActivity extends AppCompatActivity {
     private void getUiHooks() {
         // Get the UI hooks
     }
+
+
+
+    /* Methods that respond to user clicks */
+
+    /**
+     * Respond when the user presses the 'Submit' button.
+     * Create the new Item in the database if running in normal mode,
+     * and update the Item in the database if running in edit mode.
+     * @param v The View that was clicked
+     */
+    public void submit(View v) {
+        // Read the input fields
+        String itemName = editItemName.getText().toString();
+
+        String itemTimeStart = editTimeStart.getText().toString();
+        String itemTimeEnd = editTimeEnd.getText().toString();
+        String itemTimeDuration = editTimeDuration.getText().toString();
+        String itemTimeOther = ""; // Don't forget me
+
+        String itemLocationName = editLocationName.getText().toString();
+        String itemLocationState = editLocationState.getText().toString();
+        String itemLocationCity = editLocationCity.getText().toString();
+        String itemLocationZip = editLocationZip.getText().toString();
+
+        String itemCost = editCost.getText().toString();
+        String itemCostLow = editCostLow.getText().toString();
+        String itemCostHi = editCostHi.getText().toString();
+
+        String itemGoogMaps = ""; // Don't forget me
+
+        /* Normal mode: Add a new Checklist Item */
+        if (!editMode) {
+            // Log the new Checklist Item's toString
+            /*
+            TODO
+            Instead of logging the toString(),
+            since we're avoiding object creation,
+            log the values using the Strings,
+            and maybe create an ArrayList of Strings
+            that can be easily dumped to output.
+            Remember to remove the ArrayList later
+            to avoid object creation of /that/.
+             */
+
+            // Write the new Checklist Item to the Checklist Item database and get its row ID
+            long rowID = addItemToDatabase("");
+            // TODO How do dis?
+            // The row ID was already logged in addItemToDatabase()
+
+            // Close the database helper and finish the activity
+            checklistItemDbHelper.close();
+            this.finish();
+        }
+
+        /* Edit mode: Update an existing Item */
+        else {
+            // Log the updated Item's toString
+            // TODO
+
+            // Update the Item that already exists in the database
+            updateItemInDatabase(""); // TODO Check that updates complete ok, and that logging is solid
+
+            // Close the database helper and finish the activity
+            checklistItemDbHelper.close();
+            this.finish();
+        }
+    }
+
+    /**
+     * Clear all of the input fields in the activity's UI
+     * @param v
+     */
+    public void clearFields(View v) {
+//        Utility.clearFields((ViewGroup) findViewById(R.id.viewgroup_add_item));
+    }
+
+    // TODO End current
+
+
+    /*
+    * Methods that read from the database
+    * Methods that write to the database
+    * Methods that manage the options menu
+    */
+
+
+
+
+
+
+
+
 }
