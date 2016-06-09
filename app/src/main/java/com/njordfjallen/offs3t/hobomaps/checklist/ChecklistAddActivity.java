@@ -185,6 +185,8 @@ public class ChecklistAddActivity extends AppCompatActivity {
         // Read the input fields
         String itemName = editItemName.getText().toString();
 
+        // TODO Maybe at this exact point, the time should be
+        // held in an int (SQL Integer type), instead of a String
         String itemTimeStart = editTimeStart.getText().toString();
         String itemTimeEnd = editTimeEnd.getText().toString();
         String itemTimeDuration = editTimeDuration.getText().toString();
