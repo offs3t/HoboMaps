@@ -145,8 +145,7 @@ public class ChecklistAddActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
+        // Stuff?
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +168,28 @@ public class ChecklistAddActivity extends AppCompatActivity {
      */
     private void getUiHooks() {
         // Get the UI hooks
+        editItemName = (EditText) findViewById(R.id.edit_item_name);
+
+        // TODO Hook up the NumberPicker views when they are completed in /res/layout/content_checklist_add.xml
+        // editTimeStart = (NumberPicker) findViewById(R.id.edit_time_start);
+
+        // Location
+        editLocationName = (EditText) findViewById(R.id.edit_location_name);
+        editLocationState = (EditText) findViewById(R.id.edit_location_state);
+        editLocationCity = (EditText) findViewById(R.id.edit_location_city);
+        editLocationZip = (EditText) findViewById(R.id.edit_location_zip);
+
+        // Cost
+        editCost = (EditText) findViewById(R.id.edit_cost);
+        editCostHi = (EditText) findViewById(R.id.edit_cost_hi);
+        editCostLow = (EditText) findViewById(R.id.edit_cost_low);
+
+        // Log error messages if any necessary Views are not found
+        if (editItemName == null) {
+            // TODO Error about >23 characters
+//          Log.e(TAG, "EditText 'edit_item_name' not found!");
+        }
+        // TODO Log other error messages, if necessary
     }
 
 
@@ -249,7 +270,14 @@ public class ChecklistAddActivity extends AppCompatActivity {
 //        Utility.clearFields((ViewGroup) findViewById(R.id.viewgroup_add_item));
     }
 
-    // TODO End current
+    // TODO Start current
+
+    /*
+     * Methods that read from the database
+     * Methods that write to the database
+     * Methods that manage the options menu
+     */
+
 
 
     /*
