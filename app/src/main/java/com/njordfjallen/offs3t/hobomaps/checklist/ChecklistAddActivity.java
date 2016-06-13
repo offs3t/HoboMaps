@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -33,8 +35,8 @@ import java.util.ArrayList;
  * Android Activity lifecycle methods       {@link #onCreate(Bundle)}<br>
  * Initialization methods                   {@link #getUiHooks()}<br>
  * Methods that respond to user clicks
- * Methods that read from the database
  * Methods that write to the database
+ * Methods that read from the database
  * Methods that manage the options menu
  */
 public class ChecklistAddActivity extends AppCompatActivity {
@@ -176,7 +178,7 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
 
 
-    /* Android lifecycle methods */
+    /* Android Activity lifecycle methods */
 
     /**
      * Called when the activity is starting
@@ -250,9 +252,8 @@ public class ChecklistAddActivity extends AppCompatActivity {
      * and update the Item in the database if running in edit mode.
      * @param v The View that was clicked
      */
-    public void submit(View v) { // TODO Start current
+    public void submit(View v) {
 
-        // TODO TODO TODO
         // Create three different methods,
         // #1: ContentValues readFromUserInput(void?)
         // #2a: long writeUserInputToDb(ContentValues values)
@@ -302,8 +303,6 @@ public class ChecklistAddActivity extends AppCompatActivity {
     public void clearFields(View v) {
 //        Utility.clearFields((ViewGroup) findViewById(R.id.viewgroup_add_item));
     }
-
-    // TODO vvv TODO
 
     /**
      * Read user input from the input fields, store the values in a <code>ContentValues</code>
@@ -382,11 +381,11 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
         if (newRowId == -1) {
             /* The database insert was unsuccessful */
-            Log.e(TAG, "New Checklist Item DB insert was unsuccessful!");
+//            Log.e(TAG, "New Checklist Item DB insert was unsuccessful!");
             // TODO The logging message may be too long, >23 chars or w/e
         } else {
             /* The database insert was successful */
-            Log.i(TAG, "New Checklist Item row ID, " + newRowId);
+//            Log.i(TAG, "New Checklist Item row ID, " + newRowId);
             // TODO Check app1/.../AddItemActivity.java, Line #538, History.log() method
             // Figure out why you created the History class, instead of using Android's logging
         }
@@ -407,9 +406,16 @@ public class ChecklistAddActivity extends AppCompatActivity {
         // In app1's updateItemInDatabase() method, you first read existing values from the DB
         // so that you only update values that are different from existing values.
         // This might be an inefficient pre-optimization, after all, it takes time to read from
-        // the DB and run the String comparisons, when it might be easier to just overwrite all.
+        // the DB and run the String comparisons,
+
+        // when it might be easier to just overwrite all.
 
         // TODO Yes, ^that^ is definitely a better idea
+
+        if (rowID == 0) {
+            // This situation does not make sense, so log it
+//            Log.e(TAG, "Method 'overwriteUserInputToDb()' was called with a row ID of 0");
+        }
 
         // Select by the row ID.
         // Remember that 'rowID' is a member variable,
@@ -443,15 +449,21 @@ public class ChecklistAddActivity extends AppCompatActivity {
         }
     }
 
-    // TODO ^^^ TODO
-
-    // TODO Start current
 
 
-
-    /* Methods that read from the database */
+    /* Methods that read from the database XXX*/
 
     // TODO TODO Just return the Cursor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Fuck, I have no idea why 'getExistingItem()' takes a long myRowID, while
+    //                          'getExistingItemName()' takes a long myRowID, and a SQLiteDatabase db
+    // !!
+    // The reason why is because getExistingItem() is a non-static method,
+    // and getExistingItemName() is a STATIC METHOD!
+    // ...
+    // Now what was the reason for making one of these methods static, and the other not static?
+
+    // This method is actually necessary because the input fields have to be filled in with
+    // existing values when this Activity is being run in Edit mode
 
     /**
      * TODO Rewrite me
@@ -524,22 +536,35 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
 
 
+    /* Methods that manage the options menu */
 
+    /**
+     * Initialize the activity's options menu
+     * @param menu The options menu in which to place items
+     * @return True if the menu is to be displayed, false otherwise
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.add_item, menu); TODO
+        return true;
+    }
 
-
-
-
-    /*
-    * Methods that read from the database
-    * Methods that write to the database
-    * Methods that manage the options menu
-    */
-
-
-
-
-
-
-
+    /**
+     * Called whenever an item in the options menu is selected
+     * @param item The menu item that was selected
+     * @return Return false to allow normal menu processing to proceed, true to consume it here
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
