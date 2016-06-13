@@ -453,85 +453,56 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
     /* Methods that read from the database XXX*/
 
-    // TODO TODO Just return the Cursor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO Just return the Cursor ! ! ! ! !
     // Fuck, I have no idea why 'getExistingItem()' takes a long myRowID, while
     //                          'getExistingItemName()' takes a long myRowID, and a SQLiteDatabase db
-    // !!
+    // ...
+
+    // ! !
     // The reason why is because getExistingItem() is a non-static method,
-    // and getExistingItemName() is a STATIC METHOD!
+    // and getExistingItemName() is a STATIC METHOD
     // ...
     // Now what was the reason for making one of these methods static, and the other not static?
 
-    // This method is actually necessary because the input fields have to be filled in with
-    // existing values when this Activity is being run in Edit mode
-
     /**
-     * TODO Rewrite me
      * https://developer.android.com/training/basics/data-storage/databases.html#ReadDbRow
      * https://developer.android.com/reference/android/database/Cursor.html
      * https://developer.android.com/reference/android/database/sqlite/SQLiteCursor.html
      * @param myRowID The row ID of the Item to fetch
      * @return The Item that has the row ID <code>rowID</code>, or null if no such Item exists
      */
-    private ArrayList<String> getExistingItem(long myRowID) {
+    private Cursor getExistingChecklistItem(long myRowID) {
+        // This method is necessary because the input fields have to be filled in with
+        // existing values when this Activity is being run in Edit mode
+
         // Access the database
         SQLiteDatabase db = checklistItemDbHelper.getReadableDatabase();
 
         // Select by the row ID
         String[] selectionArg = { String.valueOf(myRowID) };
 
-        // Query the database and get a cursor
+        // Query the database and get a Cursor
         Cursor c = db.query(
                 ChecklistItemContract.ChecklistItemEntry.TABLE_NAME,
-                PROJECTION,
-                ROW_ID_SELECTION,   // Select by the row ID.
+                PROJECTION_CURRENT_VIEWS,
+                ROW_ID_SELECTION,   // Select by the row ID. XXX
                 selectionArg,       // Pass the row ID as the selection argument.
                 null,               // Do not group the rows in the result.
                 null,               // Set to null because 'groupBy' is also set to null.
                 null);              // Do not sort the result, only 1 row is expected.
 
-//        Log.i(TAG, c.getCount() + " row(s) in the cursor, 1 row expected");
+//        Log.i(TAG, c.getCount() + " row(s) in the cursor, 1 row expected"); TODO
 
         // Return null if a row was not found with the given row ID
         if (c.getCount() == 0) {
-//            itemDbHelper.close();
+            checklistItemDbHelper.close();
 //            Log.d(TAG, "No row found with row ID " + myRowID);
             return null;
         } else if (c.getCount() != 1) {
 //            Log.d(TAG, "Query for row ID " + myRowID + " was unsuccessful");
         }
 
-        /*
-        // Read the fields from the cursor
-        c.moveToFirst();
-        String existingItemName =
-                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_ITEM_NAME));
-        String existingItemCategory =
-                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_CATEGORY));
-        int existingItemWeight =
-                c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT));
-        String existingItemWeightUnits =
-                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT_UNITS));
-        int existingItemQuantity =
-                c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT_IN_GRAMS));
-        boolean existingItemIsEssential =
-                (c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_IS_ESSENTIAL)) == 1);
-        String existingItemNotes =
-                (c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_NOTES)));
-        String existingItemPhotoFilePath =
-                (c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_PHOTO_FILE_PATH)));
-
-        Item existingItem = new Item(existingItemName,
-                existingItemCategory,
-                existingItemWeight,
-                existingItemWeightUnits,
-                existingItemQuantity,
-                existingItemIsEssential,
-                existingItemNotes,
-                existingItemPhotoFilePath);
-        return existingItem;
-        */
-        return null;
+        return c;
     }
 
 
