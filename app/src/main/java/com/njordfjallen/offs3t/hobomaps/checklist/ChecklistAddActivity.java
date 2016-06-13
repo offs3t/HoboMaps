@@ -1,3 +1,6 @@
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +12,8 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.njordfjallen.offs3t.hobomaps.R;
+
+import java.util.ArrayList;
 
 /**
  * The activity that allows a user to create a new Checklist Item.
@@ -40,6 +45,47 @@ public class ChecklistAddActivity extends AppCompatActivity {
      * Android logging tag
      */
     private static final String TAG = "checklist/ChecklistAddActivity";
+
+    public static final String ROW_ID_SELECTION =
+            ChecklistItemContract.ChecklistItemEntry._ID + " = ?";
+
+    public static final String[] PROJECTION = {
+            ChecklistItemContract.ChecklistItemEntry._ID,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_START,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_END,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_DURATION,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_OTHER,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_NAME,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_STATE,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_CITY,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_ZIP,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_TYPE,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_LOW,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_HI,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_GOOG_MAPS
+    };
+
+    /**
+     * A projection that only uses columns of fields that there are currently input fields for
+     * (input/output)
+     */
+    public static final String[] PROJECTION_CURRENT_VIEWS = {
+            ChecklistItemContract.ChecklistItemEntry._ID,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_START,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_END,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_DURATION,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_TIME_OTHER,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_NAME,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_STATE,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_CITY,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_ZIP,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_TYPE,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_LOW,
+            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_HI,
+//            ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_GOOG_MAPS
+    };
 
     /**
      * An Intent extra key.
@@ -80,7 +126,7 @@ public class ChecklistAddActivity extends AppCompatActivity {
     private boolean editMode;
 
     /**
-     * The row ID of the Checklist Item in the database to display
+     * The row ID of the Checklist Item in the database to display, if Edit Mode is on (set to true)
      */
     private long rowID;
 
@@ -172,6 +218,8 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
         // TODO Hook up the NumberPicker views when they are completed in /res/layout/content_checklist_add.xml
         // editTimeStart = (NumberPicker) findViewById(R.id.edit_time_start);
+        // editTimeEnd = (NumberPicker) findViewById(R.id.edit_time_end);
+        // editTimeDuration= (NumberPicker) findViewById(R.id.edit_time_duration);
 
         // Location
         editLocationName = (EditText) findViewById(R.id.edit_location_name);
@@ -202,46 +250,28 @@ public class ChecklistAddActivity extends AppCompatActivity {
      * and update the Item in the database if running in edit mode.
      * @param v The View that was clicked
      */
-    public void submit(View v) {
-        // Read the input fields
-        String itemName = editItemName.getText().toString();
+    public void submit(View v) { // TODO Start current
 
-        // TODO Maybe at this exact point, the time should be
-        // held in an int (SQL Integer type), instead of a String
-        String itemTimeStart = editTimeStart.getText().toString();
-        String itemTimeEnd = editTimeEnd.getText().toString();
-        String itemTimeDuration = editTimeDuration.getText().toString();
-        String itemTimeOther = ""; // Don't forget me
+        // TODO TODO TODO
+        // Create three different methods,
+        // #1: ContentValues readFromUserInput(void?)
+        // #2a: long writeUserInputToDb(ContentValues values)
+        // #2b: boolean overwriteUserInputToDb(ContentValues values)
+        //     (This is the "update" method)
 
-        String itemLocationName = editLocationName.getText().toString();
-        String itemLocationState = editLocationState.getText().toString();
-        String itemLocationCity = editLocationCity.getText().toString();
-        String itemLocationZip = editLocationZip.getText().toString();
-
-        String itemCost = editCost.getText().toString();
-        String itemCostLow = editCostLow.getText().toString();
-        String itemCostHi = editCostHi.getText().toString();
-
-        String itemGoogMaps = ""; // Don't forget me
+        // Read values from user input and create a ContentValues map
+        ContentValues values = readFromUserInput();
 
         /* Normal mode: Add a new Checklist Item */
         if (!editMode) {
-            // Log the new Checklist Item's toString
-            /*
-            TODO
-            Instead of logging the toString(),
-            since we're avoiding object creation,
-            log the values using the Strings,
-            and maybe create an ArrayList of Strings
-            that can be easily dumped to output.
-            Remember to remove the ArrayList later
-            to avoid object creation of /that/.
-             */
+            // TODO Log the new Checklist Item's information in some way
 
-            // Write the new Checklist Item to the Checklist Item database and get its row ID
-            long rowID = addItemToDatabase("");
-            // TODO How do dis?
-            // The row ID was already logged in addItemToDatabase()
+            // Pass the ContentValues map,
+            // write these values to the database,
+            // and receive the row ID
+            long newRowId = writeUserInputToDb(values);
+
+            // TODO Did you log the (new) row ID in the writeUserInputToDb() method?
 
             // Close the database helper and finish the activity
             checklistItemDbHelper.close();
@@ -250,11 +280,14 @@ public class ChecklistAddActivity extends AppCompatActivity {
 
         /* Edit mode: Update an existing Item */
         else {
-            // Log the updated Item's toString
-            // TODO
+            // TODO Log the updated Checklist Item's information in some way
 
-            // Update the Item that already exists in the database
-            updateItemInDatabase(""); // TODO Check that updates complete ok, and that logging is solid
+            // Pass the ContentValues map,
+            // overwrite the existing values in the database,
+            // and receive the row ID
+            boolean updateSuccessful = overwriteUserInputToDb(values);
+
+            // TODO Log update success or failure in the overwriteUserInputToDb() method
 
             // Close the database helper and finish the activity
             checklistItemDbHelper.close();
@@ -270,13 +303,229 @@ public class ChecklistAddActivity extends AppCompatActivity {
 //        Utility.clearFields((ViewGroup) findViewById(R.id.viewgroup_add_item));
     }
 
+    // TODO vvv TODO
+
+    /**
+     * Read user input from the input fields, store the values in a <code>ContentValues</code>
+     * object, and return the <code>ContentValues</code> object
+     * @return ContentValues A map that stores column names as map keys,
+     * and their values as map values
+     */
+    private ContentValues readFromUserInput() {
+        // Read values from user input
+        String itemName = editItemName.getText().toString();
+
+        String itemLocationName = editLocationName.getText().toString();
+        String itemLocationState = editLocationState.getText().toString();
+        String itemLocationCity = editLocationCity.getText().toString();
+        String itemLocationZip = editLocationZip.getText().toString();
+
+        String itemCost = editCost.getText().toString();
+        String itemCostLow = editCostLow.getText().toString();
+        String itemCostHi = editCostHi.getText().toString();
+
+        /*
+        TODO Need to define the NumberPickers
+        String itemTimeStart = editTimeStart.getText().toString();
+        String itemTimeEnd = editTimeEnd.getText().toString();
+        String itemTimeDuration = editTimeDuration.getText().toString();
+        String itemTimeOther = ""; // Don't forget me
+        */
+
+        // TODO Maybe at this exact point, the time should be
+        // held in an int (to soon become a SQL Integer type),
+        // instead of in a String
+
+        String itemGoogMaps = ""; // Don't forget me
+
+        // Create a map of values, with column names as the keys and data attributes as the values
+        ContentValues values = new ContentValues();
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_ITEM_NAME,
+                itemName);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_NAME,
+                itemLocationName);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_STATE,
+                itemLocationState);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_CITY,
+                itemLocationCity);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_LOCATION_ZIP,
+                itemLocationZip);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST,
+                itemCost);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_LOW,
+                itemCostLow);
+        values.put(ChecklistItemContract.ChecklistItemEntry.COLUMN_NAME_COST_HI,
+                itemCostHi);
+
+        return values;
+    }
+
+
+
+    /* Methods that write to the database */
+
+    /**
+     * Add a completely new Checklist Item to the database
+     * @param values A map that stores column names as map keys, and their values as map values
+     * @return <code>long</code> row ID for the newly created Checklist Item in the database,
+     * or <code>-1</code> if the database insert was not successful
+     */
+    private long writeUserInputToDb(ContentValues values) {
+        // Get the database in write mode
+        SQLiteDatabase db = checklistItemDbHelper.getWritableDatabase();
+
+        // Insert the new row
+        long newRowId = db.insert(
+                ChecklistItemContract.ChecklistItemEntry.TABLE_NAME,
+                null,
+                values);
+
+        if (newRowId == -1) {
+            /* The database insert was unsuccessful */
+            Log.e(TAG, "New Checklist Item DB insert was unsuccessful!");
+            // TODO The logging message may be too long, >23 chars or w/e
+        } else {
+            /* The database insert was successful */
+            Log.i(TAG, "New Checklist Item row ID, " + newRowId);
+            // TODO Check app1/.../AddItemActivity.java, Line #538, History.log() method
+            // Figure out why you created the History class, instead of using Android's logging
+        }
+        return newRowId;
+    }
+
+    /**
+     * This method returns a boolean because the row ID is unaffected by the update operation.
+     * It returns true if the operation was successful (exactly one row was changed),
+     * or returns false if the operation was unsuccessful (zero rows were changed, or other failure)
+     * @param values A map that stores column names as map keys, and their values as map values
+     * @return True if the operation was successful, false otherwise
+     */
+    private boolean overwriteUserInputToDb(ContentValues values) {
+        // Get the database in write mode
+        SQLiteDatabase db = checklistItemDbHelper.getWritableDatabase();
+
+        // In app1's updateItemInDatabase() method, you first read existing values from the DB
+        // so that you only update values that are different from existing values.
+        // This might be an inefficient pre-optimization, after all, it takes time to read from
+        // the DB and run the String comparisons, when it might be easier to just overwrite all.
+
+        // TODO Yes, ^that^ is definitely a better idea
+
+        // Select by the row ID.
+        // Remember that 'rowID' is a member variable,
+        // is only set if 'editMode' is true,
+        // and is received as an Intent extra
+        String[] selectionArg = {String.valueOf(rowID)};
+
+        // Update the row
+        int numRowsAffected = db.update(
+                ChecklistItemContract.ChecklistItemEntry.TABLE_NAME,
+                values,
+                ROW_ID_SELECTION,
+                selectionArg);
+
+        if (numRowsAffected == 1) {
+            /* The database update was successful */
+//            Log.i(TAG, "Checklist Item updated in database, row ID " + rowID); TODO
+            return true;
+        } else if (numRowsAffected == 0) {
+            /* The database update was unsuccessful */
+//            Log.e(TAG, "Checklist Item update for row ID " + rowID + " was unsuccessful!"); TODO
+            return false;
+        } else {
+            // The number of rows affected was not zero or one,
+            // which means that db.update() returned a number greater than one,
+            // or a negative number. This is cause for concern!
+            // Multiple rows may exist in the database that have the same row ID,
+            // or db.update() returned a completely unexpected and unspecified result.
+            Log.wtf(TAG, "Checklist Item update returned an unexpected result: " + numRowsAffected + "!");
+            return false;
+        }
+    }
+
+    // TODO ^^^ TODO
+
     // TODO Start current
 
-    /*
-     * Methods that read from the database
-     * Methods that write to the database
-     * Methods that manage the options menu
+
+
+    /* Methods that read from the database */
+
+    // TODO TODO Just return the Cursor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    /**
+     * TODO Rewrite me
+     * https://developer.android.com/training/basics/data-storage/databases.html#ReadDbRow
+     * https://developer.android.com/reference/android/database/Cursor.html
+     * https://developer.android.com/reference/android/database/sqlite/SQLiteCursor.html
+     * @param myRowID The row ID of the Item to fetch
+     * @return The Item that has the row ID <code>rowID</code>, or null if no such Item exists
      */
+    private ArrayList<String> getExistingItem(long myRowID) {
+        // Access the database
+        SQLiteDatabase db = checklistItemDbHelper.getReadableDatabase();
+
+        // Select by the row ID
+        String[] selectionArg = { String.valueOf(myRowID) };
+
+        // Query the database and get a cursor
+        Cursor c = db.query(
+                ChecklistItemContract.ChecklistItemEntry.TABLE_NAME,
+                PROJECTION,
+                ROW_ID_SELECTION,   // Select by the row ID.
+                selectionArg,       // Pass the row ID as the selection argument.
+                null,               // Do not group the rows in the result.
+                null,               // Set to null because 'groupBy' is also set to null.
+                null);              // Do not sort the result, only 1 row is expected.
+
+//        Log.i(TAG, c.getCount() + " row(s) in the cursor, 1 row expected");
+
+        // Return null if a row was not found with the given row ID
+        if (c.getCount() == 0) {
+//            itemDbHelper.close();
+//            Log.d(TAG, "No row found with row ID " + myRowID);
+            return null;
+        } else if (c.getCount() != 1) {
+//            Log.d(TAG, "Query for row ID " + myRowID + " was unsuccessful");
+        }
+
+        /*
+        // Read the fields from the cursor
+        c.moveToFirst();
+        String existingItemName =
+                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_ITEM_NAME));
+        String existingItemCategory =
+                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_CATEGORY));
+        int existingItemWeight =
+                c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT));
+        String existingItemWeightUnits =
+                c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT_UNITS));
+        int existingItemQuantity =
+                c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_WEIGHT_IN_GRAMS));
+        boolean existingItemIsEssential =
+                (c.getInt(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_IS_ESSENTIAL)) == 1);
+        String existingItemNotes =
+                (c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_NOTES)));
+        String existingItemPhotoFilePath =
+                (c.getString(c.getColumnIndexOrThrow(ItemContract.ItemEntry.COLUMN_NAME_PHOTO_FILE_PATH)));
+
+        Item existingItem = new Item(existingItemName,
+                existingItemCategory,
+                existingItemWeight,
+                existingItemWeightUnits,
+                existingItemQuantity,
+                existingItemIsEssential,
+                existingItemNotes,
+                existingItemPhotoFilePath);
+        return existingItem;
+        */
+        return null;
+    }
+
+
+
+
+
 
 
 
